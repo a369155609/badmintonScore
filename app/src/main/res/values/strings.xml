@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">badmintonScore</string>
+
+
+    <string name="screen_title_find_trips">Find Trips</string>
+    <string name="screen_title_my_trips">My Trips</string>
+    <string name="screen_title_saved_trips">Saved Trips</string>
+    <string name="screen_title_price_alerts">Price Alerts</string>
+    <string name="screen_title_my_account">My Account</string>
+    <string name="cd_drawer">Open drawer</string>
+</resources>
