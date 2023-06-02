@@ -1,8 +1,9 @@
-package com.junyu.badmintonscore
+package com.junyu.badmintonscore.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 
@@ -13,19 +14,19 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.BackdropScaffold
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Navigation
-import androidx.compose.material.icons.filled.PlayCircle
-import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.material.icons.filled.SportsTennis
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -36,27 +37,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.junyu.badmintonscore.R
+import com.junyu.badmintonscore.test.MediaList
+import com.junyu.badmintonscore.test.MediaTable
+import com.junyu.badmintonscore.test.testTabRow
 import com.junyu.badmintonscore.ui.base.CraneDrawer
 
 import com.junyu.badmintonscore.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
 
-    val mainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
-    }
+
 
     val labelList = listOf("首页","打球","比赛","我的")
 
@@ -77,6 +86,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 //            testCompose()
+            val mainViewModel = hiltViewModel<MainViewModel>()
+
             Greeting()
         }
     }
@@ -139,6 +150,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
+    @Preview(showBackground = true)
     @Composable
     fun Greeting() {
         val scaffoldState = rememberScaffoldState()
@@ -168,10 +180,14 @@ class MainActivity : ComponentActivity() {
 
         when(selectIndex.value){
             0 ->{
-                TextPage("首页",contentPadding)
+//                TextPage("首页",contentPadding)
+                MediaTable(contentPadding)
+//                MediaList(contentPadding)
             }
             1 ->{
-                TextPage("打球",contentPadding)
+//                testClip()
+//                TextPage("打球",contentPadding)
+                testTabRow()
             }
             2 ->{
                 TextPage("比赛",contentPadding)
@@ -183,8 +199,26 @@ class MainActivity : ComponentActivity() {
         }
     }
     @Composable
+    private fun testClip(){
+        Box(
+            modifier = Modifier
+                .size(200.dp)
+                .clip(CircleShape)
+                .background(Color.Blue)
+        ) {
+            Image(
+                painter = painterResource(R.drawable.img_sensor_top),
+                contentDescription = "Image",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+
+    @Composable
     private fun TextPage(s: String,contentPadding: PaddingValues,) {
-        Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)) {
             Text(text = s,modifier = Modifier.align(Alignment.Center))
         }
     }

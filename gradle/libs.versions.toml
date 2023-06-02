@@ -51,8 +51,11 @@ secrets = "2.0.1"
 # @keep
 targetSdk = "33"
 version-catalog-update = "0.8.0"
+autosize-version = "1.2.1"
 
 [libraries]
+
+autosize = { module = "com.github.JessYanCoding:AndroidAutoSize", version.ref = "autosize-version" }
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
