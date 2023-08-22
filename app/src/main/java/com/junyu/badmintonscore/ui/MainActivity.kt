@@ -1,5 +1,6 @@
 package com.junyu.badmintonscore.ui
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,14 +15,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -38,7 +39,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -50,22 +50,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.junyu.badmintonscore.R
-import com.junyu.badmintonscore.test.MediaList
-import com.junyu.badmintonscore.test.MediaTable
 import com.junyu.badmintonscore.test.testTabRow
-import com.junyu.badmintonscore.ui.base.CraneDrawer
-
+import com.junyu.badmintonscore.ui.widget.ScoreWidget
 import com.junyu.badmintonscore.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
-
-
 
     val labelList = listOf("首页","打球","比赛","我的")
 
@@ -82,13 +75,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 //            testCompose()
             val mainViewModel = hiltViewModel<MainViewModel>()
 
-            Greeting()
+            Greeting(mainViewModel)
+//            HorizontalPagerTest()
         }
     }
 
@@ -97,7 +93,6 @@ class MainActivity : ComponentActivity() {
     private fun TestCompose(contentPadding: PaddingValues) {
         Box(
             modifier = Modifier.fillMaxSize(),
-
             ) {
 
             Text(text = "测试")
@@ -150,9 +145,9 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-    @Preview(showBackground = true)
+
     @Composable
-    fun Greeting() {
+    fun Greeting(mainViewModel: MainViewModel) {
         val scaffoldState = rememberScaffoldState()
         var selectIndex = remember{
             mutableStateOf(0)
@@ -161,28 +156,34 @@ class MainActivity : ComponentActivity() {
         Scaffold(
             scaffoldState = scaffoldState,
             modifier = Modifier.statusBarsPadding(),
-            drawerContent = {
-                CraneDrawer()
-            }, bottomBar = {
+//            drawerContent = {
+//                CraneDrawer()
+//            },
+            bottomBar = {
                 CreateBottomBar(selectIndex)
             }
         ) { contentPadding ->
             val scope = rememberCoroutineScope()
 //        Text(text = "测试", modifier = Modifier.padding(contentPadding))
 //            TestCompose(contentPadding)
-            pageChange(contentPadding,selectIndex)
+            pageChange(mainViewModel,contentPadding,selectIndex)
         }
 
     }
     @Composable
-    private fun pageChange(contentPadding: PaddingValues, selectIndex: MutableState<Int>) {
+    private fun pageChange(
+        mainViewModel: MainViewModel,
+        contentPadding: PaddingValues,
+        selectIndex: MutableState<Int>
+    ) {
         val count by remember { mutableStateOf(0) }
 
         when(selectIndex.value){
             0 ->{
 //                TextPage("首页",contentPadding)
-                MediaTable(contentPadding)
+//                MediaTable(contentPadding)
 //                MediaList(contentPadding)
+                ScoreWidget(mainViewModel)
             }
             1 ->{
 //                testClip()
@@ -225,10 +226,16 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun CreateBottomBar(selectIndex: MutableState<Int>) {
+        
+        BottomNavigation() {
+            
+        }
+        
         BottomAppBar(backgroundColor = colorResource(id = R.color.white)) {
             labelList.forEachIndexed{
                 index, item ->
-                BottomNavigationItem(label = { Text(text = item)},
+                BottomNavigationItem(
+                    label = { Text(text = item)},
                     selected = index == selectIndex.value ,
                     onClick = { selectIndex.value = index }, icon = { Icon(
                         imageVector = iconList[index],

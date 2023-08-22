@@ -51,7 +51,9 @@ secrets = "2.0.1"
 # @keep
 targetSdk = "33"
 version-catalog-update = "0.8.0"
+
 autosize-version = "1.2.1"
+foundation-version = "1.4.2"
 
 [libraries]
 
@@ -69,8 +71,8 @@ androidx-benchmark-macrobenchmark = { module = "androidx.benchmark:benchmark-mac
 androidx-benchmark-macrobenchmark-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark-junit4" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
-androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" , version.ref = "foundation-version"}
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "foundation-version" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
